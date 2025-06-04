@@ -28,7 +28,7 @@ def add_question():
     question = request.form.get('question')
 
     # Create record to database
-    conn = sqlite3.connect('my_blogs.db')
+    conn = sqlite3.connect('GEOshop.db')
 
     conn.execute('''
                  INSERT INTO contacts (name, email, question)
@@ -51,7 +51,7 @@ def contact():
 @app.route('/posts')
 def posts():
     main_posts = []
-    conn = sqlite3.connect('my_blogs.db')
+    conn = sqlite3.connect('GEOshop.db')
     c = conn.cursor()
 
     # თუ არსებობს სერჩიდან გამოგზავნილი პარამეტრი მოძებნოს მსგავსი title-ით პოსტები, სხვა შემთხვევაში წამოიღოს ყველა პოსტი.
@@ -77,7 +77,7 @@ def sign_in():
     if request.method == 'POST':
         user_email = request.form.get('email')
         user_password = request.form.get('password')
-        conn = sqlite3.connect('my_blogs.db')
+        conn = sqlite3.connect('GEOshop.db')
         c = conn.cursor()
         c.execute("SELECT email, password, username FROM users WHERE email = ?", (user_email,))
         rows = c.fetchall()
@@ -112,7 +112,7 @@ def admin():
 
 @app.route('/admin/admin_contacts')
 def admin_contacts():
-    conn = sqlite3.connect('my_blogs.db')
+    conn = sqlite3.connect('GEOshop.db')
     c = conn.cursor()
     c.execute('SELECT * FROM contacts')
     rows = c.fetchall()
@@ -129,7 +129,7 @@ def admin_contacts():
 
 @app.route('/admin/create_items', methods=['GET', 'POST'])
 def create_items():
-    conn = sqlite3.connect('my_blogs.db')
+    conn = sqlite3.connect('GEOshop.db')
     if request.method == 'POST':
         title = request.form.get('title')
         short_description = request.form.get('short_description')
@@ -156,7 +156,7 @@ def create_items():
 
 @app.route('/admin/delete_item/<int:id>')
 def delete_item(id):
-    conn = sqlite3.connect('my_blogs.db')
+    conn = sqlite3.connect('GEOshop.db')
     conn.execute('''
         DELETE FROM posts WHERE id = ?
     ''', (id,))
@@ -168,7 +168,7 @@ def delete_item(id):
 @app.route('/admin/update_item/<int:id>', methods=['GET', 'POST'])
 def update_item(id):
     posts = []
-    conn = sqlite3.connect('my_blogs.db')
+    conn = sqlite3.connect('GEOshop.db')
 
     if request.method == 'GET':
         c = conn.cursor()
@@ -199,7 +199,7 @@ def update_item(id):
 def show_post(id):
     post = []
 
-    conn = sqlite3.connect('my_blogs.db')
+    conn = sqlite3.connect('GEOshop.db')
     c = conn.cursor()
     c.execute(''' SELECT * FROM posts WHERE id = ? ''', (id,))
     rows = c.fetchall()
